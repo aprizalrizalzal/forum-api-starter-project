@@ -10,11 +10,11 @@ class DetailThreadUseCase {
   async execute(useCasePayload) {
     const { thread } = new DetailThread(useCasePayload);
     await this._threadRepository.checkAvailabilityThread(thread);
-    const detailThread = await this._threadRepository.getDetailThread(thread);
+    const getDetailThread = await this._threadRepository.getDetailThread(thread);
     const getCommentsThread = await this._commentRepository.getCommentsThread(thread);
-    detailThread.comments = new DetailComment({ comments: getCommentsThread }).comments;
+    getDetailThread.comments = new DetailComment({ comments: getCommentsThread }).comments;
     return {
-      thread: detailThread,
+      thread: getDetailThread,
     };
   }
 }

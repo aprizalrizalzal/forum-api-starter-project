@@ -142,19 +142,20 @@ describe('CommentRepositoryPostgres', () => {
 
     describe('deleteComment', () => {
       it('should delete comment from database', async () => {
-        const commentRepositoryPostgres = new CommentRepositoryPostgres(pool);
+        const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
         await UsersTableTestHelper.addUser({ id: 'user-123', username: 'dicoding123' });
         await ThreadsTableTestHelper.addThread({ id: 'thread-123', body: 'sebuah body thread', owner: 'user-123' });
         await CommentsTableTestHelper.addComment({
           id: 'comment-123', content: 'sebuah komentar', thread: 'thread-123', owner: 'user-123',
         });
 
-        const deletedAt = new Date().toISOString();
-
         await commentRepositoryPostgres.deleteComment('comment-123');
 
         const comment = await CommentsTableTestHelper.checkdeletedAtCommentsById('comment-123');
-        expect(comment).toEqual(deletedAt);
+        const isoDateRegex = /^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z)$/;
+
+        expect(typeof comment).toEqual('string');
+        expect(isoDateRegex.test(comment)).toBeTruthy();
       });
     });
 
