@@ -188,7 +188,7 @@ describe('/threads endpoint', () => {
 
       const response = await server.inject({
         method: 'GET',
-        url: '/threads/thread-456',
+        url: '/threads/xxx',
         headers: { Authorization: `Bearer ${responseAuth.data.accessToken}` },
       });
 

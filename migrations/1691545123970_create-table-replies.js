@@ -6,11 +6,11 @@ exports.up = (pgm) => {
       type: 'VARCHAR(50)',
       primaryKey: true,
     },
-    comment: {
+    thread: {
       type: 'VARCHAR(50)',
       notNull: true,
     },
-    thread: {
+    comment: {
       type: 'VARCHAR(50)',
       notNull: true,
     },
@@ -36,7 +36,7 @@ exports.up = (pgm) => {
     },
   });
 
-  pgm.addConstraint('replies', 'fk_replies.comments_comments.id', 'FOREIGN KEY(comment) REFERENCES comments(id) ON DELETE CASCADE');
+  pgm.addConstraint('replies', 'fk_replies.comment_comments.id', 'FOREIGN KEY(comment) REFERENCES comments(id) ON DELETE CASCADE');
   pgm.addConstraint('replies', 'fk_replies.thread_threads.id', 'FOREIGN KEY(thread) REFERENCES threads(id) ON DELETE CASCADE');
   pgm.addConstraint('replies', 'fk_replies.owner_users.id', 'FOREIGN KEY(owner) REFERENCES users(id) ON DELETE CASCADE');
 };

@@ -3,7 +3,7 @@ const pool = require('../src/Infrastructures/database/postgres/pool');
 
 const CommentsTableTestHelper = {
   async addComment({
-    id = 'comment-123', content = 'sebuah comment', thread = 'thread-123', owner = 'user-123',
+    id = 'comment-123', thread = 'thread-123', content = 'sebuah komentar', owner = 'user-123',
   }) {
     const createdAt = new Date().toISOString();
     const updatedAt = createdAt;
@@ -36,7 +36,7 @@ const CommentsTableTestHelper = {
     return deletedAt;
   },
 
-  async deleteComment(id) {
+  async deleteCommentsById(id) {
     const deletedAt = new Date().toISOString();
     const query = {
       text: 'UPDATE comments SET deleted_at = $2 WHERE id = $1',

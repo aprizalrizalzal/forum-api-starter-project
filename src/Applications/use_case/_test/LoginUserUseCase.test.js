@@ -1,9 +1,9 @@
-const UserRepository = require('../../../Domains/users/UserRepository');
-const AuthenticationRepository = require('../../../Domains/authentications/AuthenticationRepository');
-const AuthenticationTokenManager = require('../../security/AuthenticationTokenManager');
 const PasswordHash = require('../../security/PasswordHash');
+const AuthenticationTokenManager = require('../../security/AuthenticationTokenManager');
 const LoginUserUseCase = require('../LoginUserUseCase');
 const NewAuth = require('../../../Domains/authentications/entities/NewAuth');
+const AuthenticationRepository = require('../../../Domains/authentications/AuthenticationRepository');
+const UserRepository = require('../../../Domains/users/UserRepository');
 
 describe('GetAuthenticationUseCase', () => {
   it('should orchestrating the get authentication action correctly', async () => {

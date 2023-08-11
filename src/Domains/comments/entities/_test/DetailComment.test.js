@@ -1,6 +1,6 @@
 const DetailComment = require('../DetailComment');
 
-describe('a DetailThread entities', () => {
+describe('a DetailComment entities', () => {
   it('should throw error when payload did not contain needed property', () => {
     const payload = {
     };

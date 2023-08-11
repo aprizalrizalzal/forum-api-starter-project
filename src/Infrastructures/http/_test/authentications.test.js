@@ -1,9 +1,9 @@
-const pool = require('../../database/postgres/pool');
 const UsersTableTestHelper = require('../../../../tests/UsersTableTestHelper');
 const AuthenticationsTableTestHelper = require('../../../../tests/AuthenticationsTableTestHelper');
+const AuthenticationTokenManager = require('../../../Applications/security/AuthenticationTokenManager');
+const pool = require('../../database/postgres/pool');
 const container = require('../../container');
 const createServer = require('../createServer');
-const AuthenticationTokenManager = require('../../../Applications/security/AuthenticationTokenManager');
 
 describe('/authentications endpoint', () => {
   afterAll(async () => {

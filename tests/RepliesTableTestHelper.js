@@ -1,14 +1,15 @@
+/* istanbul ignore file */
 const pool = require('../src/Infrastructures/database/postgres/pool');
 
 const RepliesTableTestHelper = {
   async addReply({
-    id = 'reply-123', content = 'sebuah balasan', comment = 'comment-123', thread = 'thread-123', owner = 'user-123',
+    id = 'reply-123', thread = 'thread-123', comment = 'comment-123', content = 'sebuah balasan', owner = 'user-123',
   }) {
     const createdAt = new Date().toISOString();
     const updatedAt = createdAt;
     const query = {
-      text: 'INSERT INTO comments VALUES($1, $2, $3, $4, $5, $6, $7)',
-      values: [id, content, comment, thread, owner, createdAt, updatedAt],
+      text: 'INSERT INTO replies VALUES($1, $2, $3, $4, $5, $6, $7)',
+      values: [id, thread, comment, content, owner, createdAt, updatedAt],
     };
 
     await pool.query(query);

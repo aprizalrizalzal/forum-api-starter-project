@@ -1,6 +1,6 @@
+const DeleteCommentUseCase = require('../DeleteCommentUseCase');
 const CommentRepository = require('../../../Domains/comments/CommentRepository');
 const ThreadRepository = require('../../../Domains/threads/ThreadRepository');
-const DeleteCommentUseCase = require('../DeleteCommentUseCase');
 
 describe('DeleteCommentUseCase', () => {
   it('should throw error if use case payload not contain thread id and comment id', async () => {

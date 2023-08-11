@@ -1,12 +1,12 @@
-const CommentsTableTestHelper = require('../../../../tests/CommentsTableTestHelper');
-const CommentRepositoryPostgres = require('../CommentRepositoryPostgres');
-const pool = require('../../database/postgres/pool');
 const UsersTableTestHelper = require('../../../../tests/UsersTableTestHelper');
 const ThreadsTableTestHelper = require('../../../../tests/ThreadsTableTestHelper');
+const CommentsTableTestHelper = require('../../../../tests/CommentsTableTestHelper');
 const AddComment = require('../../../Domains/comments/entities/AddComment');
 const AddedComment = require('../../../Domains/comments/entities/AddedComment');
 const NotFoundError = require('../../../Commons/exceptions/NotFoundError');
 const AuthorizationError = require('../../../Commons/exceptions/AuthorizationError');
+const pool = require('../../database/postgres/pool');
+const CommentRepositoryPostgres = require('../CommentRepositoryPostgres');
 
 describe('CommentRepositoryPostgres', () => {
   it('should be instance of ThreadRepository domain', () => {
@@ -32,6 +32,7 @@ describe('CommentRepositoryPostgres', () => {
           id: 'user-123',
           username: 'dicoding',
         });
+
         await ThreadsTableTestHelper.addThread({
           id: 'thread-123',
           body: 'sebuah body thread',
@@ -39,7 +40,7 @@ describe('CommentRepositoryPostgres', () => {
         });
 
         const newComment = new AddComment({
-          content: 'sebuah comment',
+          content: 'sebuah komentar',
           thread: 'thread-123',
           owner: 'user-123',
         });
@@ -50,7 +51,7 @@ describe('CommentRepositoryPostgres', () => {
         const addedComment = await commentRepositoryPostgres.addComment(newComment);
         expect(addedComment).toStrictEqual(new AddedComment({
           id: 'comment-123',
-          content: 'sebuah comment',
+          content: 'sebuah komentar',
           owner: 'user-123',
         }));
 
@@ -62,7 +63,7 @@ describe('CommentRepositoryPostgres', () => {
     describe('checkAvailabilityComment function', () => {
       it('should throw NotFoundError if comment not available', async () => {
         const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
-        const comment = 'thread-456';
+        const comment = 'comment-456';
 
         await expect(commentRepositoryPostgres.checkAvailabilityComment(comment))
           .rejects.toThrow(NotFoundError);
@@ -74,14 +75,16 @@ describe('CommentRepositoryPostgres', () => {
           id: 'user-123',
           username: 'dicding',
         });
+
         await ThreadsTableTestHelper.addThread({
           id: 'thread-123',
           body: 'sebuah body thread',
           owner: 'user-123',
         });
+
         await CommentsTableTestHelper.addComment({
           id: 'comment-123',
-          content: 'sebuah comment',
+          content: 'sebuah komentar',
           thread: 'thread-123',
           owner: 'user-123',
         });
@@ -97,18 +100,21 @@ describe('CommentRepositoryPostgres', () => {
           id: 'user-123',
           username: 'dicoding',
         });
+
         await UsersTableTestHelper.addUser({
           id: 'user-123456',
           username: 'dicoding_123456',
         });
+
         await ThreadsTableTestHelper.addThread({
           id: 'thread-123',
           body: 'sebuah body thread',
           owner: 'user-123',
         });
+
         await CommentsTableTestHelper.addComment({
           id: 'comment-123',
-          content: 'sebuah comment',
+          content: 'sebuah komentar',
           thread: 'thread-123',
           owner: 'user-123',
         });
@@ -124,14 +130,16 @@ describe('CommentRepositoryPostgres', () => {
           id: 'user-123',
           username: 'dicoding',
         });
+
         await ThreadsTableTestHelper.addThread({
           id: 'thread-123',
           body: 'sebuah body thread',
           owner: 'user-123',
         });
+
         await CommentsTableTestHelper.addComment({
           id: 'comment-123',
-          content: 'sebuah comment',
+          content: 'sebuah komentar',
           thread: 'thread-123',
           owner: 'user-123',
         });
@@ -143,10 +151,22 @@ describe('CommentRepositoryPostgres', () => {
     describe('deleteComment', () => {
       it('should delete comment from database', async () => {
         const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
-        await UsersTableTestHelper.addUser({ id: 'user-123', username: 'dicoding123' });
-        await ThreadsTableTestHelper.addThread({ id: 'thread-123', body: 'sebuah body thread', owner: 'user-123' });
+        await UsersTableTestHelper.addUser({
+          id: 'user-123',
+          username: 'dicoding123'
+        });
+
+        await ThreadsTableTestHelper.addThread({
+          id: 'thread-123',
+          body: 'sebuah body thread',
+          owner: 'user-123'
+        });
+
         await CommentsTableTestHelper.addComment({
-          id: 'comment-123', content: 'sebuah komentar', thread: 'thread-123', owner: 'user-123',
+          id: 'comment-123',
+          content: 'sebuah komentar',
+          thread: 'thread-123',
+          owner: 'user-123',
         });
 
         await commentRepositoryPostgres.deleteComment('comment-123');
@@ -162,16 +182,21 @@ describe('CommentRepositoryPostgres', () => {
     describe('getCommentsThread', () => {
       it('should get comments of thread', async () => {
         const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
-        const userPayload = { id: 'user-123', username: 'dicoding' };
+        const userPayload = {
+          id: 'user-123',
+          username: 'dicoding'
+        };
+
         const threadPayload = {
           id: 'thread-123',
           title: 'sebuah thread',
           body: 'sebuah body thread',
           owner: 'user-123',
         };
+
         const commentPayload = {
           id: 'comment-123',
-          content: 'sebuah comment',
+          content: 'sebuah komentar',
           thread: threadPayload.id,
           owner: userPayload.id,
         };
@@ -185,7 +210,7 @@ describe('CommentRepositoryPostgres', () => {
         expect(Array.isArray(comments)).toBe(true);
         expect(comments[0].id).toEqual(commentPayload.id);
         expect(comments[0].username).toEqual(userPayload.username);
-        expect(comments[0].content).toEqual('sebuah comment');
+        expect(comments[0].content).toEqual('sebuah komentar');
         expect(comments[0].date).toBeDefined();
       });
     });

@@ -1,5 +1,5 @@
-const AuthenticationRepository = require('../../../Domains/authentications/AuthenticationRepository');
 const DeleteAuthenticationUseCase = require('../DeleteAuthenticationUseCase');
+const AuthenticationRepository = require('../../../Domains/authentications/AuthenticationRepository');
 
 describe('DeleteAuthenticationUseCase', () => {
   it('should throw error if use case payload not contain refresh token', async () => {
