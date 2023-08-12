@@ -19,14 +19,14 @@ describe('DetailThreadUseCase', () => {
 
     const expectedComment = [
       {
-        id: 'comment-456',
+        id: 'comment-123',
         username: 'johndoe',
         date: '2021-08-08T07:22:33.555Z',
         content: 'sebuah komentar',
         deleted_at: '',
       },
       {
-        id: 'comment-123',
+        id: 'comment-456',
         username: 'dicoding',
         date: '2021-08-08T07:26:21.338Z',
         content: 'komentar yang lain tapi sudah dihapus',
@@ -36,14 +36,14 @@ describe('DetailThreadUseCase', () => {
 
     const expectedReply = [
       {
-        id: 'reply-456',
+        id: 'reply-123',
         username: 'johndoe',
         date: '2021-08-08T07:22:33.555Z',
         content: 'sebuah balasan',
         deleted_at: '',
       },
       {
-        id: 'reply-123',
+        id: 'reply-456',
         username: 'dicoding',
         date: '2021-08-08T07:26:21.338Z',
         content: 'balasan yang lain tapi sudah dihapus',
@@ -60,6 +60,7 @@ describe('DetailThreadUseCase', () => {
     mockThreadRepository.getDetailThread = jest.fn().mockImplementation(
       () => Promise.resolve(expectedThread),
     );
+
     mockCommentRepository.getCommentsThread = jest.fn().mockImplementation(
       () => Promise.resolve(expectedComment),
     );
@@ -89,18 +90,18 @@ describe('DetailThreadUseCase', () => {
         username: 'dicoding',
         comments: [
           {
-            id: 'comment-456',
+            id: 'comment-123',
             username: 'johndoe',
             date: '2021-08-08T07:22:33.555Z',
             replies: [
               {
-                id: "reply-456",
+                id: "reply-123",
                 content: "sebuah balasan",
                 date: "2021-08-08T07:59:48.766Z",
                 username: "johndoe"
               },
               {
-                id: "reply-123",
+                id: "reply-456",
                 content: "**balasan telah dihapus**",
                 date: "2021-08-08T08:07:01.522Z",
                 username: "dicoding"
@@ -109,7 +110,7 @@ describe('DetailThreadUseCase', () => {
             content: 'sebuah komentar',
           },
           {
-            id: 'comment-123',
+            id: 'comment-456',
             username: 'dicoding',
             date: '2021-08-08T07:26:21.338Z',
             content: '**komentar telah dihapus**',

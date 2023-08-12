@@ -12,29 +12,48 @@ class DetailThreadUseCase {
   async execute(useCasePayload) {
     const { thread } = new DetailThread(useCasePayload);
     await this._threadRepository.checkAvailabilityThread(thread);
+
     const getDetailThread = await this._threadRepository.getDetailThread(thread);
     const getCommentsThread = await this._commentRepository.getCommentsThread(thread);
     const getRepliesThread = await this._replyRepository.getRepliesThread(thread);
 
     const commentsWithReplies = getCommentsThread.map(comment => {
-      const replies = getRepliesThread
-        .filter(reply => reply.commentId === comment.id)
-        .map(reply => new DetailReply({
+      const relatedReplies = getRepliesThread.filter(reply => reply.comment === comment.id);
+      const replies = relatedReplies.map(reply => {
+        return {
           id: reply.id,
-          content: reply.deleted_at ? '**balasan telah dihapus**' : reply.content,
-          date: reply.date,
           username: reply.username,
-        }));
+          date: reply.date,
+          content: reply.deleted_at ? '**balasan telah dihapus**' : reply.content,
+        };
+      });
 
-      return {
-        ...new DetailComment({ comments: [comment] }).comments[0],
-        replies,
-      };
+      if (replies.length > 0) {
+        return {
+          id: comment.id,
+          username: comment.username,
+          date: comment.date,
+          replies: replies,
+          content: comment.deleted_at ? '**komentar telah dihapus**' : comment.content,
+        };
+      } else {
+
+        return {
+          id: comment.id,
+          username: comment.username,
+          date: comment.date,
+          content: comment.deleted_at ? '**komentar telah dihapus**' : comment.content,
+        };
+      }
     });
 
     return {
       thread: {
-        ...getDetailThread,
+        id: getDetailThread.id,
+        title: getDetailThread.title,
+        body: getDetailThread.body,
+        date: getDetailThread.date,
+        username: getDetailThread.username,
         comments: commentsWithReplies,
       },
     };

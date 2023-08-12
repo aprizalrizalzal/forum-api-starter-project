@@ -252,6 +252,7 @@ describe('/threads endpoint', () => {
       expect(responseJson.data.thread.body).toEqual('sebuah body thread');
       expect(responseJson.data.thread.username).toEqual('dicoding');
       expect(Array.isArray(responseJson.data.thread.comments)).toBe(true);
+      // expect(Array.isArray(responseJson.data.thread.comments.replies)).toBe(true);
     });
   });
 });
