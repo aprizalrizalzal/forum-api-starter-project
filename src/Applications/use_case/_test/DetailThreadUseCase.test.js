@@ -20,6 +20,7 @@ describe('DetailThreadUseCase', () => {
     const expectedComment = [
       {
         id: 'comment-123',
+        thread: 'thread-123',
         username: 'johndoe',
         date: '2021-08-08T07:22:33.555Z',
         content: 'sebuah komentar',
@@ -27,6 +28,7 @@ describe('DetailThreadUseCase', () => {
       },
       {
         id: 'comment-456',
+        thread: 'thread-123',
         username: 'dicoding',
         date: '2021-08-08T07:26:21.338Z',
         content: 'komentar yang lain tapi sudah dihapus',
@@ -37,6 +39,8 @@ describe('DetailThreadUseCase', () => {
     const expectedReply = [
       {
         id: 'reply-123',
+        thread: 'thread-123',
+        comment: 'comment-123',
         username: 'johndoe',
         date: '2021-08-08T07:22:33.555Z',
         content: 'sebuah balasan',
@@ -44,6 +48,8 @@ describe('DetailThreadUseCase', () => {
       },
       {
         id: 'reply-456',
+        thread: 'thread-123',
+        comment: 'comment-123',
         username: 'dicoding',
         date: '2021-08-08T07:26:21.338Z',
         content: 'balasan yang lain tapi sudah dihapus',
@@ -97,15 +103,15 @@ describe('DetailThreadUseCase', () => {
               {
                 id: "reply-123",
                 content: "sebuah balasan",
-                date: "2021-08-08T07:59:48.766Z",
+                date: "2021-08-08T07:22:33.555Z",
                 username: "johndoe"
               },
               {
                 id: "reply-456",
                 content: "**balasan telah dihapus**",
-                date: "2021-08-08T08:07:01.522Z",
+                date: "2021-08-08T07:26:21.338Z",
                 username: "dicoding"
-              }
+              },
             ],
             content: 'sebuah komentar',
           },
@@ -113,6 +119,7 @@ describe('DetailThreadUseCase', () => {
             id: 'comment-456',
             username: 'dicoding',
             date: '2021-08-08T07:26:21.338Z',
+            replies: [],
             content: '**komentar telah dihapus**',
           },
         ],

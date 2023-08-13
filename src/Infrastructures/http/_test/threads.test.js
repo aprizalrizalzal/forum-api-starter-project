@@ -252,7 +252,13 @@ describe('/threads endpoint', () => {
       expect(responseJson.data.thread.body).toEqual('sebuah body thread');
       expect(responseJson.data.thread.username).toEqual('dicoding');
       expect(Array.isArray(responseJson.data.thread.comments)).toBe(true);
-      // expect(Array.isArray(responseJson.data.thread.comments.replies)).toBe(true);
+      if (Array.isArray(responseJson.data.thread.comments)) {
+        responseJson.data.thread.comments.forEach(comments => {
+          if (comments.replies) {
+            expect(Array.isArray(responseJson.data.thread.comments.replies)).toBe(true);
+          }
+        });
+      }
     });
   });
 });

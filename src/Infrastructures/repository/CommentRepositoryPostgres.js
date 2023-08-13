@@ -64,9 +64,10 @@ class CommentRepositoryPostgres extends CommentRepository {
 
   async getCommentsThread(thread) {
     const query = {
-      text: `SELECT comments.id, users.username, comments.created_at AS date, comments.content, comments.deleted_at FROM comments 
-      LEFT JOIN users ON users.id = comments.owner 
-      WHERE thread = $1 
+      text: `SELECT comments.id, comments.thread, users.username, comments.created_at AS date, comments.content, comments.deleted_at FROM comments 
+      LEFT JOIN threads ON threads.id = comments.thread 
+      LEFT JOIN users ON users.id = comments.owner
+      WHERE comments.thread = $1 
       ORDER BY comments.created_at 
       ASC`,
       values: [thread],

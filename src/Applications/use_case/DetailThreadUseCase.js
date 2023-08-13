@@ -17,43 +17,22 @@ class DetailThreadUseCase {
     const getCommentsThread = await this._commentRepository.getCommentsThread(thread);
     const getRepliesThread = await this._replyRepository.getRepliesThread(thread);
 
-    const commentsWithReplies = getCommentsThread.map(comment => {
-      const relatedReplies = getRepliesThread.filter(reply => reply.comment === comment.id);
-      const replies = relatedReplies.map(reply => {
+    const commentsWithReplies = getCommentsThread.filter(comment => comment.thread === thread).map(comment => {
+      const replies = getRepliesThread.filter(reply => reply.comment === comment.id).map(reply => {
         return {
-          id: reply.id,
-          username: reply.username,
-          date: reply.date,
-          content: reply.deleted_at ? '**balasan telah dihapus**' : reply.content,
+          ...new DetailReply({ replies: [reply] }).replies[0],
         };
       });
 
-      if (replies.length > 0) {
-        return {
-          id: comment.id,
-          username: comment.username,
-          date: comment.date,
-          replies: replies,
-          content: comment.deleted_at ? '**komentar telah dihapus**' : comment.content,
-        };
-      } else {
-
-        return {
-          id: comment.id,
-          username: comment.username,
-          date: comment.date,
-          content: comment.deleted_at ? '**komentar telah dihapus**' : comment.content,
-        };
-      }
+      return {
+        ...new DetailComment({ comments: [comment] }).comments[0],
+        replies,
+      };
     });
 
     return {
       thread: {
-        id: getDetailThread.id,
-        title: getDetailThread.title,
-        body: getDetailThread.body,
-        date: getDetailThread.date,
-        username: getDetailThread.username,
+        ...getDetailThread,
         comments: commentsWithReplies,
       },
     };
