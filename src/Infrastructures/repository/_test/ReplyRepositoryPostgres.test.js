@@ -73,7 +73,7 @@ describe('ReplyRepositoryPostgres', () => {
     describe('checkAvailabilityReply function', () => {
       it('should throw NotFoundError if reply not available', async () => {
         const replyRepositoryPostgres = new ReplyRepositoryPostgres(pool, {});
-        const reply = 'reply-456';
+        const reply = 'xxx';
 
         await expect(replyRepositoryPostgres.checkAvailabilityReply(reply))
           .rejects.toThrow(NotFoundError);
@@ -260,8 +260,10 @@ describe('ReplyRepositoryPostgres', () => {
 
         expect(Array.isArray(replies)).toBe(true);
         expect(replies[0].id).toEqual(replyPayload.id);
+        expect(replies[0].comment).toEqual(commentPayload.id);
         expect(replies[0].username).toEqual(userPayload.username);
         expect(replies[0].content).toEqual('sebuah balasan');
+        expect(replies[0].deleted_at).toBeDefined();
         expect(replies[0].date).toBeDefined();
       });
     });

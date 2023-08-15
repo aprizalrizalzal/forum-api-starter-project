@@ -39,7 +39,6 @@ describe('DetailThreadUseCase', () => {
     const expectedReply = [
       {
         id: 'reply-123',
-        thread: 'thread-123',
         comment: 'comment-123',
         username: 'johndoe',
         date: '2021-08-08T07:22:33.555Z',
@@ -48,7 +47,6 @@ describe('DetailThreadUseCase', () => {
       },
       {
         id: 'reply-456',
-        thread: 'thread-123',
         comment: 'comment-123',
         username: 'dicoding',
         date: '2021-08-08T07:26:21.338Z',
@@ -83,6 +81,7 @@ describe('DetailThreadUseCase', () => {
 
     const detailThread = await detailThreadUseCase.execute(useCasePayload);
 
+    expect(mockThreadRepository.checkAvailabilityThread).toHaveBeenCalledWith(useCasePayload.thread);
     expect(mockThreadRepository.getDetailThread).toHaveBeenCalledWith(useCasePayload.thread);
     expect(mockCommentRepository.getCommentsThread).toHaveBeenCalledWith(useCasePayload.thread);
     expect(mockReplyRepository.getRepliesThread).toHaveBeenCalledWith(useCasePayload.thread);

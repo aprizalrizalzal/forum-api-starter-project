@@ -63,7 +63,7 @@ describe('CommentRepositoryPostgres', () => {
     describe('checkAvailabilityComment function', () => {
       it('should throw NotFoundError if comment not available', async () => {
         const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
-        const comment = 'comment-456';
+        const comment = 'xxx';
 
         await expect(commentRepositoryPostgres.checkAvailabilityComment(comment))
           .rejects.toThrow(NotFoundError);
@@ -102,8 +102,8 @@ describe('CommentRepositoryPostgres', () => {
         });
 
         await UsersTableTestHelper.addUser({
-          id: 'user-123456',
-          username: 'dicoding_123456',
+          id: 'user-456',
+          username: 'dicoding_456',
         });
 
         await ThreadsTableTestHelper.addThread({
@@ -118,7 +118,7 @@ describe('CommentRepositoryPostgres', () => {
           thread: 'thread-123',
           owner: 'user-123',
         });
-        const owner = 'user-123456';
+        const owner = 'user-456';
 
         await expect(commentRepositoryPostgres.verifyCommentOwner('comment-123', owner))
           .rejects.toThrow(AuthorizationError);
@@ -209,8 +209,10 @@ describe('CommentRepositoryPostgres', () => {
 
         expect(Array.isArray(comments)).toBe(true);
         expect(comments[0].id).toEqual(commentPayload.id);
+        expect(comments[0].thread).toEqual(threadPayload.id);
         expect(comments[0].username).toEqual(userPayload.username);
         expect(comments[0].content).toEqual('sebuah komentar');
+        expect(comments[0].deleted_at).toBeDefined();
         expect(comments[0].date).toBeDefined();
       });
     });
